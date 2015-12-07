@@ -65,7 +65,7 @@ class LockingMiddleware
         $name = 'session-'.$request->session()->getId();
 
         try {
-            $response = $this->locker->execute($function, $name);
+            $response = $this->locker->execute($function, $name, 20000);
         } catch (UnableToAcquireLockException $e) {
             throw new UnprocessableEntityHttpException('Unable to acquire lock.');
         }

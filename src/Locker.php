@@ -58,7 +58,7 @@ class Locker
      *
      * @return mixed
      */
-    public function execute(Closure $function, $name, $timeout = 20000, $play = 500, $interval = 100, $trys = 128)
+    public function execute(Closure $function, $name, $timeout, $play = 500, $interval = 100, $trys = 128)
     {
         $lock = new Lock($this->redis, $name, $timeout, $play, $interval, $trys);
 
