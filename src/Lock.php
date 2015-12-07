@@ -35,11 +35,11 @@ final class Lock
     protected $redis;
 
     /**
-     * The lock name.
+     * The lock names.
      *
-     * @var string
+     * @var string[]
      */
-    protected $name;
+    protected $names;
 
     /**
      * The lock timeout in milliseconds.
@@ -94,7 +94,7 @@ final class Lock
      * Create a new lock instance.
      *
      * @param \Predis\ClientInterface $redis
-     * @param string                  $name
+     * @param string[]                $names
      * @param int                     $timeout
      * @param int                     $play
      * @param int                     $interval
@@ -102,10 +102,10 @@ final class Lock
      *
      * @return void
      */
-    public function __construct(ClientInterface $redis, $name, $timeout, $play, $interval, $trys)
+    public function __construct(ClientInterface $redis, array $names, $timeout, $play, $interval, $trys)
     {
         $this->redis = $redis;
-        $this->name = $name;
+        $this->names = $names;
         $this->timeout = $timeout;
         $this->play = $play;
         $this->min = $interval * 500;
@@ -136,12 +136,27 @@ final class Lock
         $trys = 0;
 
         while (true) {
+            $time = $this->time();
             $this->token = str_random(32);
 
-            if ($this->redis->set($this->name, $this->token, 'NX', 'PX', $this->timeout)) {
-                $this->state = $this->time();
+            $acquired = [];
+
+            foreach ($this->names as $name) {
+                if ($this->redis->set($name, $this->token, 'NX', 'PX', $this->timeout)) {
+                    $acquired[] = $name;
+                } else {
+                    break;
+                }
+            }
+
+            if ($acquired == $this->names) {
+                $this->state = $time;
 
                 return true;
+            } else {
+                foreach ($acquired as $name) {
+                    $this->redis->del($names);
+                }
             }
 
             $trys++;
@@ -149,6 +164,8 @@ final class Lock
             if ($trys >= $this->trys) {
                 return false;
             }
+
+            shuffle($this->names);
 
             usleep(random_int($this->min, $this->max));
         }
@@ -168,7 +185,9 @@ final class Lock
             return false;
         }
 
-        $this->redis->del($this->name);
+        foreach ($this->names as $name) {
+            $this->redis->del($names);
+        }
 
         $this->state = self::UNLOCKED;
 
