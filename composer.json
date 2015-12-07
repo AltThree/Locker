@@ -1,0 +1,51 @@
+{
+    "name": "alt-three/locker",
+    "description": "A Lock Manager For Laravel 5",
+    "keywords": ["locker", "locking", "Locker", "Alt Three"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Brooks",
+            "email": "james@alt-three.com"
+        },
+        {
+            "name": "Graham Campbell",
+            "email": "graham@alt-three.com"
+        },
+        {
+            "name": "Joseph Cohen",
+            "email": "joe@alt-three.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/contracts": "5.1.*|5.2.*",
+        "illuminate/redis": "5.1.*|5.2.*",
+        "illuminate/support": "5.1.*|5.2.*",
+        "psr/log": "^1.0"
+    },
+    "require-dev": {
+        "graham-campbell/testbench": "^3.1",
+        "phpunit/phpunit": "^4.8|^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AltThree\\Locker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AltThree\\Tests\\Locker\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
