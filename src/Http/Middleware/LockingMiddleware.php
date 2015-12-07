@@ -11,6 +11,7 @@
 
 namespace AltThree\Locker\Http\Middleware;
 
+use AltThree\Locker\Exceptions\UnableToAcquireLockException;
 use AltThree\Locker\Locker;
 use Closure;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -47,6 +48,8 @@ class LockingMiddleware
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
      *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -55,7 +58,7 @@ class LockingMiddleware
             return $next($request);
         }
 
-        $function = function () use ($request) {
+        $function = function () use ($request, $next) {
             return $next($request);
         };
 
