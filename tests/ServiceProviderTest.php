@@ -11,8 +11,8 @@
 
 namespace AltThree\Tests\Locker;
 
-use AltThree\Locker\Locker;
 use AltThree\Locker\Http\Middleware\LockingMiddleware;
+use AltThree\Locker\Locker;
 use GrahamCampbell\TestBenchCore\ServiceProviderTrait;
 
 /**
