@@ -56,11 +56,18 @@ final class Lock
     protected $play;
 
     /**
-     * The reattempt interval in microseconds.
+     * The minimum reattempt interval in microseconds.
      *
      * @var int
      */
-    protected $interval;
+    protected $min;
+
+    /**
+     * The maximum reattempt interval in microseconds.
+     *
+     * @var int
+     */
+    protected $max;
 
     /**
      * The maximum number of trys to acquire the lock.
@@ -101,7 +108,8 @@ final class Lock
         $this->name = $name;
         $this->timeout = $timeout;
         $this->play = $play;
-        $this->interval = $interval * 1000;
+        $this->min = $interval * 500;
+        $this->max = $interval * 1500;
         $this->trys = $trys;
     }
 
@@ -142,7 +150,7 @@ final class Lock
                 return false;
             }
 
-            usleep($this->interval);
+            usleep(random_int($this->min, $this->max));
         }
     }
 

@@ -21,7 +21,8 @@
         "php": ">=5.5.9",
         "illuminate/contracts": "5.1.*|5.2.*",
         "illuminate/support": "5.1.*|5.2.*",
-        "predis/predis": "^1.0"
+        "predis/predis": "^1.0",
+        "paragonie/random_compat": "^1.1"
     },
     "require-dev": {
         "graham-campbell/testbench": "^3.1",
@@ -42,7 +43,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.1-dev"
         }
     },
     "minimum-stability": "dev",
