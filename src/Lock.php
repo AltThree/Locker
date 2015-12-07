@@ -153,7 +153,7 @@ final class Lock
 
                 return true;
             } else {
-                foreach($acquired as $name) {
+                foreach ($acquired as $name) {
                     $this->redis->del($names);
                 }
             }

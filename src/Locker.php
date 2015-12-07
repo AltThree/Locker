@@ -63,7 +63,7 @@ class Locker
         $lock = new Lock($this->redis, (array) $names, $timeout, $play, $interval, $trys);
 
         if (!$lock->acquire()) {
-            throw new UnableToAcquireLockException("Unable to acquire lock.");
+            throw new UnableToAcquireLockException('Unable to acquire lock.');
         }
 
         try {
