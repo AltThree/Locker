@@ -174,7 +174,7 @@ final class Lock
             return false;
         }
 
-        if ($this->time() > $this->state + $this->timeout - $ths->play) {
+        if ($this->time() > $this->state + $this->timeout - $this->play) {
             $this->state = self::UNLOCKED;
         }
 
