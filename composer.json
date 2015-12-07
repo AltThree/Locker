@@ -22,7 +22,7 @@
         "illuminate/contracts": "5.1.*|5.2.*",
         "illuminate/redis": "5.1.*|5.2.*",
         "illuminate/support": "5.1.*|5.2.*",
-        "psr/log": "^1.0"
+        "predis/predis": "^1.0"
     },
     "require-dev": {
         "graham-campbell/testbench": "^3.1",
