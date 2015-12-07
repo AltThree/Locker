@@ -14,7 +14,7 @@ namespace AltThree\Locker\Http\Middleware;
 use AltThree\Locker\Exceptions\UnableToAcquireLockException;
 use AltThree\Locker\Locker;
 use Closure;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
  * This is the locking middleware class.
@@ -48,7 +48,7 @@ class LockingMiddleware
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException
      *
      * @return mixed
      */
@@ -67,7 +67,7 @@ class LockingMiddleware
         try {
             $response = $this->locker->execute($function, $name);
         } catch (UnableToAcquireLockException $e) {
-            throw new HttpException('Unable to acquire lock.', 423);
+            throw new UnprocessableEntityHttpException('Unable to acquire lock.');
         }
 
         return $response;
