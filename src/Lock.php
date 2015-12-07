@@ -189,7 +189,7 @@ final class Lock
     }
 
     /**
-     * Get the current system time in microseconds.
+     * Get the current system time in milliseconds.
      *
      * @return int
      */
