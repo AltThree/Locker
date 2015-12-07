@@ -184,7 +184,7 @@ final class Lock
     /**
      * Get the current system time in microseconds.
      *
-     * @return bool
+     * @return int
      */
     protected function time()
     {
