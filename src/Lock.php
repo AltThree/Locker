@@ -70,6 +70,13 @@ final class Lock
     protected $trys;
 
     /**
+     * The current token.
+     *
+     * @var string|null
+     */
+    protected $token;
+
+    /**
      * The current lock state.
      *
      * @var bool|int
