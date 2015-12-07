@@ -60,7 +60,7 @@ class Locker
      */
     public function execute(Closure $function, $name, $timeout = 10000, $play = 500, $interval = 200, $trys = 64)
     {
-        $lock = new Lock($this->redis, $name, $name, $timeout, $play, $interval);
+        $lock = new Lock($this->redis, $name, $name, $timeout, $play, $interval, $trys);
 
         if (!$lock->acquire()) {
             throw new UnableToAcquireLockException("Unable to acquire lock on {$name}.");
