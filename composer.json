@@ -20,7 +20,6 @@
     "require": {
         "php": ">=5.5.9",
         "illuminate/contracts": "5.1.*|5.2.*",
-        "illuminate/redis": "5.1.*|5.2.*",
         "illuminate/support": "5.1.*|5.2.*",
         "predis/predis": "^1.0"
     },
