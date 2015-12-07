@@ -35,11 +35,11 @@ final class Lock
     protected $redis;
 
     /**
-     * The lock name.
+     * The lock names.
      *
-     * @var string
+     * @var string[]
      */
-    protected $name;
+    protected $names;
 
     /**
      * The lock timeout in milliseconds.
@@ -56,11 +56,18 @@ final class Lock
     protected $play;
 
     /**
-     * The reattempt interval in microseconds.
+     * The minimum reattempt interval in microseconds.
      *
      * @var int
      */
-    protected $interval;
+    protected $min;
+
+    /**
+     * The maximum reattempt interval in microseconds.
+     *
+     * @var int
+     */
+    protected $max;
 
     /**
      * The maximum number of trys to acquire the lock.
@@ -87,7 +94,7 @@ final class Lock
      * Create a new lock instance.
      *
      * @param \Predis\ClientInterface $redis
-     * @param string                  $name
+     * @param string[]                $names
      * @param int                     $timeout
      * @param int                     $play
      * @param int                     $interval
@@ -95,13 +102,14 @@ final class Lock
      *
      * @return void
      */
-    public function __construct(ClientInterface $redis, $name, $timeout, $play, $interval, $trys)
+    public function __construct(ClientInterface $redis, array $names, $timeout, $play, $interval, $trys)
     {
         $this->redis = $redis;
-        $this->name = $name;
+        $this->names = $names;
         $this->timeout = $timeout;
         $this->play = $play;
-        $this->interval = $interval * 1000;
+        $this->min = $interval * 500;
+        $this->max = $interval * 1500;
         $this->trys = $trys;
     }
 
@@ -130,10 +138,24 @@ final class Lock
         while (true) {
             $this->token = str_random(32);
 
-            if ($this->redis->set($this->name, $this->token, 'NX', 'PX', $this->timeout)) {
+            $acquired = [];
+
+            foreach ($this->names as $name) {
+                if ($this->redis->set($this->names, $this->token, 'NX', 'PX', $this->timeout)) {
+                    $acquired[] = $name;
+                } else {
+                    break;
+                }
+            }
+
+            if ($acquired == $this->names) {
                 $this->state = $this->time();
 
                 return true;
+            } else {
+                foreach($acquired as $name) {
+                    $this->redis->del($names);
+                }
             }
 
             $trys++;
@@ -142,7 +164,9 @@ final class Lock
                 return false;
             }
 
-            usleep($this->interval);
+            shuffle($this->names);
+
+            usleep(random_int($this->min, $this->max));
         }
     }
 
@@ -160,7 +184,9 @@ final class Lock
             return false;
         }
 
-        $this->redis->del($this->name);
+        foreach ($this->names as $name) {
+            $this->redis->del($this->names);
+        }
 
         $this->state = self::UNLOCKED;
 

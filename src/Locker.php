@@ -47,23 +47,23 @@ class Locker
      * If we were unable to acquire the lock, after the specified number of
      * retrys, then we'll throw an exception.
      *
-     * @param \Closure $function
-     * @param string   $name
-     * @param int      $timeout
-     * @param int      $play
-     * @param int      $interval
-     * @param int      $trys
+     * @param \Closure        $function
+     * @param string|string[] $names
+     * @param int             $timeout
+     * @param int             $play
+     * @param int             $interval
+     * @param int             $trys
      *
      * @throws \AltThree\Locker\Exceptions\UnableToAcquireLockException
      *
      * @return mixed
      */
-    public function execute(Closure $function, $name, $timeout, $play = 500, $interval = 100, $trys = 128)
+    public function execute(Closure $function, $names, $timeout, $play = 500, $interval = 100, $trys = 128)
     {
-        $lock = new Lock($this->redis, $name, $timeout, $play, $interval, $trys);
+        $lock = new Lock($this->redis, (array) $names, $timeout, $play, $interval, $trys);
 
         if (!$lock->acquire()) {
-            throw new UnableToAcquireLockException("Unable to acquire lock on {$name}.");
+            throw new UnableToAcquireLockException("Unable to acquire lock.");
         }
 
         try {
