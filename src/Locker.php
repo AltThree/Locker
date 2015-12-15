@@ -42,6 +42,24 @@ class Locker
     }
 
     /**
+     * Make a new lock instance.
+     *
+     * Note that we will not attempt to acquire the lock at this point.
+     *
+     * @param string  $name
+     * @param int     $timeout
+     * @param int     $play
+     * @param int     $interval
+     * @param int     $trys
+     *
+     * @return \AltThree\Locker\Lock
+     */
+    public function make($name, $timeout, $play = 500, $interval = 100, $trys = 128)
+    {
+        return new Lock($this->redis, $name, $timeout, $play, $interval, $trys);
+    }
+
+    /**
      * Acquire the a lock for, and then excecute the function.
      *
      * If we were unable to acquire the lock, after the specified number of
@@ -60,7 +78,7 @@ class Locker
      */
     public function execute(Closure $function, $name, $timeout, $play = 500, $interval = 100, $trys = 128)
     {
-        $lock = new Lock($this->redis, $name, $timeout, $play, $interval, $trys);
+        $lock = $this->make($name, $timeout, $play, $interval, $trys);
 
         if (!$lock->acquire()) {
             throw new UnableToAcquireLockException("Unable to acquire lock on {$name}.");
