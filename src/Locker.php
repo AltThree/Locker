@@ -46,11 +46,11 @@ class Locker
      *
      * Note that we will not attempt to acquire the lock at this point.
      *
-     * @param string  $name
-     * @param int     $timeout
-     * @param int     $play
-     * @param int     $interval
-     * @param int     $trys
+     * @param string $name
+     * @param int    $timeout
+     * @param int    $play
+     * @param int    $interval
+     * @param int    $trys
      *
      * @return \AltThree\Locker\Lock
      */
