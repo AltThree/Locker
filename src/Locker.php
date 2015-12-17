@@ -64,7 +64,7 @@ class Locker
      * Acquire the a lock for, and then execute the function.
      *
      * If we were unable to acquire the lock, after the specified number of
-     * retries, then we'll throw an exception.
+     * attempts, then we'll throw an exception.
      *
      * @param \Closure $function
      * @param string   $name
