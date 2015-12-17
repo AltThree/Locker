@@ -56,25 +56,25 @@ final class Lock
     protected $play;
 
     /**
-     * The minimum reattempt interval in microseconds.
+     * The minimum retry interval in microseconds.
      *
      * @var int
      */
     protected $min;
 
     /**
-     * The maximum reattempt interval in microseconds.
+     * The maximum retry interval in microseconds.
      *
      * @var int
      */
     protected $max;
 
     /**
-     * The maximum number of trys to acquire the lock.
+     * The maximum number of attempts to acquire the lock.
      *
      * @var int
      */
-    protected $trys;
+    protected $attempts;
 
     /**
      * The current token.
@@ -98,11 +98,11 @@ final class Lock
      * @param int                     $timeout
      * @param int                     $play
      * @param int                     $interval
-     * @param int                     $trys
+     * @param int                     $attempts
      *
      * @return void
      */
-    public function __construct(ClientInterface $redis, $name, $timeout, $play, $interval, $trys)
+    public function __construct(ClientInterface $redis, $name, $timeout, $play, $interval, $attempts)
     {
         $this->redis = $redis;
         $this->name = $name;
@@ -110,7 +110,7 @@ final class Lock
         $this->play = $play;
         $this->min = $interval * 500;
         $this->max = $interval * 1500;
-        $this->trys = $trys;
+        $this->attempts = $attempts;
     }
 
     /**
@@ -133,7 +133,7 @@ final class Lock
      */
     public function acquire()
     {
-        $trys = 0;
+        $attempts = 0;
 
         while (true) {
             $this->token = str_random(32);
@@ -144,9 +144,9 @@ final class Lock
                 return true;
             }
 
-            $trys++;
+            $attempts++;
 
-            if ($trys >= $this->trys) {
+            if ($attempts >= $this->attempts) {
                 return false;
             }
 
