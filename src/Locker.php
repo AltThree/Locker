@@ -51,13 +51,13 @@ class Locker
      * @param int    $timeout
      * @param int    $play
      * @param int    $interval
-     * @param int    $trys
+     * @param int    $attempts
      *
      * @return \AltThree\Locker\Lock
      */
-    public function make($name, $timeout, $play = 500, $interval = 100, $trys = 128)
+    public function make($name, $timeout, $play = 500, $interval = 100, $attempts = 128)
     {
-        return new Lock($this->redis, $name, $timeout, $play, $interval, $trys);
+        return new Lock($this->redis, $name, $timeout, $play, $interval, $attempts);
     }
 
     /**
@@ -71,15 +71,15 @@ class Locker
      * @param int      $timeout
      * @param int      $play
      * @param int      $interval
-     * @param int      $trys
+     * @param int      $attempts
      *
      * @throws \AltThree\Locker\Exceptions\UnableToAcquireLockException
      *
      * @return mixed
      */
-    public function execute(Closure $function, $name, $timeout, $play = 500, $interval = 100, $trys = 128)
+    public function execute(Closure $function, $name, $timeout, $play = 500, $interval = 100, $attempts = 128)
     {
-        $lock = $this->make($name, $timeout, $play, $interval, $trys);
+        $lock = $this->make($name, $timeout, $play, $interval, $attempts);
 
         if (!$lock->acquire()) {
             throw new UnableToAcquireLockException("Unable to acquire lock on {$name}.");
