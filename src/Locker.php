@@ -19,6 +19,7 @@ use Predis\ClientInterface;
  * This is the locker class.
  *
  * @author Graham Campbell <graham@alt-three.com>
+ * @author James Brooks <james@alt-three.com>
  */
 class Locker
 {
@@ -60,10 +61,10 @@ class Locker
     }
 
     /**
-     * Acquire the a lock for, and then excecute the function.
+     * Acquire the a lock for, and then execute the function.
      *
      * If we were unable to acquire the lock, after the specified number of
-     * retrys, then we'll throw an exception.
+     * retries, then we'll throw an exception.
      *
      * @param \Closure $function
      * @param string   $name
