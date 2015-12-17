@@ -47,7 +47,7 @@ This will create a `config/locker.php` file in your app that you can modify to s
 
 ## Usage
 
-Alt Three Locker provides a locker class which should be used to execute critical tasks while acquiring a lock to do so. We also have a locker middleware which will acquire a lock on a per session basis to perform "unsafe" tasks, or in otherwords, we're preventing more than one non-GET request from being processed at once per user.
+Alt Three Locker provides a locker class which should be used to execute critical tasks while acquiring a lock to do so. We also have a locker middleware which will acquire a lock on a per session basis to perform "unsafe" tasks, or in other words, we're preventing more than one non-GET request from being processed at once per user.
 
 
 ## Security
