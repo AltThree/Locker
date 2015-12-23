@@ -16,7 +16,7 @@ return [
     | Connection
     |--------------------------------------------------------------------------
     |
-    | This defined the redis connection to use when acquiring locks.
+    | This defines the redis connection to use when acquiring locks.
     |
     */
 
