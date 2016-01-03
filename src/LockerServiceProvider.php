@@ -72,7 +72,7 @@ class LockerServiceProvider extends ServiceProvider
      */
     protected function registerLocker(Application $app)
     {
-        $app->singleton('locker', function ($app) {
+        $app->singleton('locker', function (Application $app) {
             $redis = $app['redis']->connection($app->config->get('locker.connection'));
 
             return new Locker($redis);
