@@ -11,7 +11,7 @@
 
 namespace AltThree\Locker;
 
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
@@ -30,24 +30,22 @@ class LockerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig($this->app);
+        $this->setupConfig();
     }
 
     /**
      * Setup the config.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     *
      * @return void
      */
-    protected function setupConfig(Application $app)
+    protected function setupConfig()
     {
         $source = realpath(__DIR__.'/../config/locker.php');
 
-        if ($app instanceof LaravelApplication && $app->runningInConsole()) {
+        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
             $this->publishes([$source => config_path('locker.php')]);
-        } elseif ($app instanceof LumenApplication) {
-            $app->configure('locker');
+        } elseif ($this->app instanceof LumenApplication) {
+            $this->app->configure('locker');
         }
 
         $this->mergeConfigFrom($source, 'locker');
@@ -60,25 +58,23 @@ class LockerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerLocker($this->app);
+        $this->registerLocker();
     }
 
     /**
      * Register the locker class.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     *
      * @return void
      */
-    protected function registerLocker(Application $app)
+    protected function registerLocker()
     {
-        $app->singleton('locker', function (Application $app) {
+        $this->app->singleton('locker', function (Container $app) {
             $redis = $app['redis']->connection($app->config->get('locker.connection'));
 
             return new Locker($redis);
         });
 
-        $app->alias('locker', Locker::class);
+        $this->app->alias('locker', Locker::class);
     }
 
     /**
