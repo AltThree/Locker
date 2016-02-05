@@ -24,7 +24,7 @@ First, install the dependencies:
 $ composer install
 ```
 
-Then run phpunit:
+Then run PHPUnit:
 
 ```bash
 $ vendor/bin/phpunit
@@ -32,4 +32,6 @@ $ vendor/bin/phpunit
 
 If the test suite passes on your local machine you should be good to go.
 
-When you make a pull request, the tests will automatically be run again by [Travis CI](https://travis-ci.org/) on multiple php versions and hhvm.
+When you make a pull request, the tests will automatically be run again by [Travis CI](https://travis-ci.org/) on multiple PHP versions and HHVM.
+
+We also have StyleCI setup to automatically check and fix any code style issues.
