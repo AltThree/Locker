@@ -32,6 +32,13 @@ class LockingMiddleware
     protected $locker;
 
     /**
+     * The URIs that should be excluded.
+     *
+     * @var string[]
+     */
+    protected $except = [];
+
+    /**
      * Create a new locking middleware instance.
      *
      * @param \AltThree\Locker\Locker $locker
@@ -55,7 +62,7 @@ class LockingMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->isMethodSafe()) {
+        if ($request->isMethodSafe() || $this->shouldPassThrough($request)) {
             return $next($request);
         }
 
@@ -72,5 +79,27 @@ class LockingMiddleware
         }
 
         return $response;
+    }
+
+    /**
+     * Determine if the request has a URI that should pass through.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return bool
+     */
+    protected function shouldPassThrough(Request $request)
+    {
+        foreach ($this->except as $except) {
+            if ($except !== '/') {
+                $except = trim($except, '/');
+            }
+
+            if ($request->is($except)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
