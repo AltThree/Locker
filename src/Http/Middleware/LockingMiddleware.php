@@ -14,6 +14,7 @@ namespace AltThree\Locker\Http\Middleware;
 use AltThree\Locker\Exceptions\UnableToAcquireLockException;
 use AltThree\Locker\Locker;
 use Closure;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
@@ -52,7 +53,7 @@ class LockingMiddleware
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if ($request->isMethodSafe()) {
             return $next($request);
