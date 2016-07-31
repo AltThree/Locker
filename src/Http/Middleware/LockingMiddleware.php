@@ -75,7 +75,7 @@ class LockingMiddleware
         try {
             $response = $this->locker->execute($function, $name, 20000);
         } catch (UnableToAcquireLockException $e) {
-            throw new UnprocessableEntityHttpException('Unable to acquire lock.');
+            throw new UnprocessableEntityHttpException('Unable to acquire lock.', $e, $e->getCode());
         }
 
         return $response;
