@@ -23,14 +23,7 @@ Instead, you may of course manually update your require block and run `composer 
 }
 ```
 
-Once Alt Three Locker is installed, you need to register the service provider. Open up `config/app.php` and add the following to the `providers` key.
-
-* `'AltThree\Locker\LockerServiceProvider'`
-
-You can register the Locker facade in the `aliases` key of your `config/app.php` file if you like.
-
-* `'Locker' => 'AltThree\Locker\Facades\Locker'`
-
+Once Alt Three Locker is installed, you need to register the service provider. Open up `config/app.php` and add the `AltThree\Locker\LockerServiceProvider` class to the `providers`.
 
 ## Configuration
 
