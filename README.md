@@ -18,7 +18,7 @@ Instead, you may of course manually update your require block and run `composer 
 ```json
 {
     "require": {
-        "alt-three/locker": "^1.0"
+        "alt-three/locker": "^2.0"
     }
 }
 ```
