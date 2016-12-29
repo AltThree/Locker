@@ -11,9 +11,13 @@
 
 namespace AltThree\Tests\Locker;
 
+use AltThree\Locker\Connections\ConnectionInterface;
+use AltThree\Locker\Connections\IlluminateConnection;
+use AltThree\Locker\Connections\PredisConnection;
 use AltThree\Locker\Http\Middleware\LockingMiddleware;
 use AltThree\Locker\Locker;
 use GrahamCampbell\TestBenchCore\ServiceProviderTrait;
+use Illuminate\Redis\Connections\Connection;
 
 /**
  * This is the service provider test class.
@@ -23,6 +27,16 @@ use GrahamCampbell\TestBenchCore\ServiceProviderTrait;
 class ServiceProviderTest extends AbstractTestCase
 {
     use ServiceProviderTrait;
+
+    public function testConnectionIsInjectable()
+    {
+        $this->assertIsInjectable(ConnectionInterface::class);
+
+        $this->assertInstanceOf(
+            class_exists(Connection::class) ? IlluminateConnection::class : PredisConnection::class,
+            $this->app->make('locker.connection')
+        );
+    }
 
     public function testLockerIsInjectable()
     {

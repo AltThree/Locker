@@ -11,10 +11,14 @@
 
 namespace AltThree\Locker;
 
+use AltThree\Locker\Connections\ConnectionInterface;
+use AltThree\Locker\Connections\IlluminateConnection;
+use AltThree\Locker\Connections\PredisConnection;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
+use Predis\ClientInterface;
 
 /**
  * This is the locker service provider class.
@@ -58,7 +62,28 @@ class LockerServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerConnection();
         $this->registerLocker();
+    }
+
+    /**
+     * Register the locker connection class.
+     *
+     * @return void
+     */
+    protected function registerConnection()
+    {
+        $this->app->singleton('locker.connection', function (Container $app) {
+            $redis = $app['redis']->connection($app->config->get('locker.connection'));
+
+            if ($redis instanceof ClientInterface) {
+                return new PredisConnection($redis);
+            }
+
+            return new IlluminateConnection($redis);
+        });
+
+        $this->app->alias('locker.connection', ConnectionInterface::class);
     }
 
     /**
@@ -69,9 +94,9 @@ class LockerServiceProvider extends ServiceProvider
     protected function registerLocker()
     {
         $this->app->singleton('locker', function (Container $app) {
-            $redis = $app['redis']->connection($app->config->get('locker.connection'));
+            $connection = $app['locker.connection'];
 
-            return new Locker($redis);
+            return new Locker($connection);
         });
 
         $this->app->alias('locker', Locker::class);
@@ -86,6 +111,7 @@ class LockerServiceProvider extends ServiceProvider
     {
         return [
             'locker',
+            'locker.connection',
         ];
     }
 }

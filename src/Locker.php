@@ -11,9 +11,9 @@
 
 namespace AltThree\Locker;
 
+use AltThree\Locker\Connections\ConnectionInterface;
 use AltThree\Locker\Exceptions\UnableToAcquireLockException;
 use Closure;
-use Predis\ClientInterface;
 
 /**
  * This is the locker class.
@@ -24,22 +24,22 @@ use Predis\ClientInterface;
 class Locker
 {
     /**
-     * The redis client instance.
+     * The connection instance.
      *
-     * @var \Predis\ClientInterface
+     * @var \AltThree\Locker\Connections\ConnectionInterface
      */
-    protected $redis;
+    protected $connection;
 
     /**
      * Create a new locker instance.
      *
-     * @param \Predis\ClientInterface $redis
+     * @param \AltThree\Locker\Connections\ConnectionInterface $connection
      *
      * @return void
      */
-    public function __construct(ClientInterface $redis)
+    public function __construct(ConnectionInterface $connection)
     {
-        $this->redis = $redis;
+        $this->connection = $connection;
     }
 
     /**
@@ -57,7 +57,7 @@ class Locker
      */
     public function make($name, $timeout, $play = 500, $interval = 100, $attempts = 128)
     {
-        return new Lock($this->redis, $name, $timeout, $play, $interval, $attempts);
+        return new Lock($this->connection, $name, $timeout, $play, $interval, $attempts);
     }
 
     /**

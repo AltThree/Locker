@@ -11,7 +11,7 @@
 
 namespace AltThree\Locker;
 
-use Predis\ClientInterface;
+use AltThree\Locker\Connections\ConnectionInterface;
 
 /**
  * This is the lock class.
@@ -28,11 +28,11 @@ final class Lock
     const UNLOCKED = false;
 
     /**
-     * The redis client instance.
+     * The connection instance.
      *
-     * @var \Predis\ClientInterface
+     * @var \AltThree\Locker\Connections\ConnectionInterface
      */
-    protected $redis;
+    protected $connection;
 
     /**
      * The lock name.
@@ -93,18 +93,18 @@ final class Lock
     /**
      * Create a new lock instance.
      *
-     * @param \Predis\ClientInterface $redis
-     * @param string                  $name
-     * @param int                     $timeout
-     * @param int                     $play
-     * @param int                     $interval
-     * @param int                     $attempts
+     * @param \AltThree\Locker\Connections\ConnectionInterface $connection
+     * @param string                                           $name
+     * @param int                                              $timeout
+     * @param int                                              $play
+     * @param int                                              $interval
+     * @param int                                              $attempts
      *
      * @return void
      */
-    public function __construct(ClientInterface $redis, $name, $timeout, $play, $interval, $attempts)
+    public function __construct(ConnectionInterface $connection, $name, $timeout, $play, $interval, $attempts)
     {
-        $this->redis = $redis;
+        $this->connection = $connection;
         $this->name = $name;
         $this->timeout = $timeout;
         $this->play = $play;
@@ -138,7 +138,7 @@ final class Lock
         while (true) {
             $this->token = str_random(32);
 
-            if ($this->redis->set($this->name, $this->token, 'NX', 'PX', $this->timeout)) {
+            if ($this->connection->store($this->name, $this->token, $this->timeout)) {
                 $this->state = $this->time();
 
                 return true;
@@ -168,7 +168,7 @@ final class Lock
             return false;
         }
 
-        $this->redis->del($this->name);
+        $this->connection->remove($this->name);
 
         $this->state = self::UNLOCKED;
 
