@@ -52,7 +52,7 @@ class IlluminateConnection implements ConnectionInterface
      */
     public function store($key, $value, $timeout)
     {
-        return $this->illuminate->set($this->name, $this->token, 'NX', 'PX', $this->timeout);
+        return $this->illuminate->set($key, $value, 'NX', 'PX', $timeout);
     }
 
     /**
@@ -64,6 +64,6 @@ class IlluminateConnection implements ConnectionInterface
      */
     public function remove($key)
     {
-        $this->illuminate->del($this->name);
+        $this->illuminate->del($key);
     }
 }

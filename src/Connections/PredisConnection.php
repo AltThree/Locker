@@ -52,7 +52,7 @@ class PredisConnection implements ConnectionInterface
      */
     public function store($key, $value, $timeout)
     {
-        return $this->predis->set($this->name, $this->token, 'NX', 'PX', $this->timeout);
+        return $this->predis->set($key, $value, 'NX', 'PX', $timeout);
     }
 
     /**
@@ -64,6 +64,6 @@ class PredisConnection implements ConnectionInterface
      */
     public function remove($key)
     {
-        $this->predis->del($this->name);
+        $this->predis->del($key);
     }
 }
