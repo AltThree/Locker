@@ -102,7 +102,7 @@ final class Lock
      *
      * @return void
      */
-    public function __construct(ConnectionInterface $connection, $name, $timeout, $play, $interval, $attempts)
+    public function __construct(ConnectionInterface $connection, string $name, int $timeout, int $play, int $interval, int $attempts)
     {
         $this->connection = $connection;
         $this->name = $name;

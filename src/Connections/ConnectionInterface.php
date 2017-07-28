@@ -29,7 +29,7 @@ interface ConnectionInterface
      *
      * @return bool
      */
-    public function store($key, $value, $timeout);
+    public function store(string $key, string $value, int $timeout);
 
     /**
      * Remove the value at the given key.
@@ -38,5 +38,5 @@ interface ConnectionInterface
      *
      * @return void
      */
-    public function remove($key);
+    public function remove(string $key);
 }

@@ -55,7 +55,7 @@ class Locker
      *
      * @return \AltThree\Locker\Lock
      */
-    public function make($name, $timeout, $play = 500, $interval = 100, $attempts = 128)
+    public function make(string $name, int $timeout, int $play = 500, int $interval = 100, int $attempts = 128)
     {
         return new Lock($this->connection, $name, $timeout, $play, $interval, $attempts);
     }
@@ -77,7 +77,7 @@ class Locker
      *
      * @return mixed
      */
-    public function execute(Closure $function, $name, $timeout, $play = 500, $interval = 100, $attempts = 128)
+    public function execute(Closure $function, string $name, int $timeout, int $play = 500, int $interval = 100, int $attempts = 128)
     {
         $lock = $this->make($name, $timeout, $play, $interval, $attempts);
 
