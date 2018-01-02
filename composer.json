@@ -5,16 +5,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "James Brooks",
-            "email": "james@alt-three.com"
-        },
-        {
-            "name": "Graham Campbell",
-            "email": "graham@alt-three.com"
-        },
-        {
-            "name": "Joseph Cohen",
-            "email": "joe@alt-three.com"
+            "name": "Alt Three",
+            "email": "support@alt-three.com"
         }
     ],
     "require": {
