@@ -64,7 +64,7 @@ class LockingMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->isMethodSafe() || $this->shouldPassThrough($request)) {
+        if ($request->isMethodSafe(false) || $this->shouldPassThrough($request)) {
             return $next($request);
         }
 
