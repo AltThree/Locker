@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace AltThree\Locker;
 
 use AltThree\Locker\Connections\ConnectionInterface;
+use Illuminate\Support\Str;
 
 /**
  * This is the lock class.
@@ -138,7 +139,7 @@ final class Lock
         $attempts = 0;
 
         while (true) {
-            $this->token = str_random(32);
+            $this->token = Str::random(32);
 
             if ($this->connection->store($this->name, $this->token, $this->timeout)) {
                 $this->state = $this->time();
