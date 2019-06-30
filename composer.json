@@ -1,6 +1,6 @@
 {
     "name": "alt-three/locker",
-    "description": "A Lock Manager For Laravel 5",
+    "description": "A lock manager for Laravel 5",
     "keywords": ["locker", "locking", "Locker", "Alt Three"],
     "license": "MIT",
     "authors": [
