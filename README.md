@@ -1,6 +1,10 @@
 # Alt Three Locker
 
-A lock manager for Laravel 5.
+[![Build Status](https://img.shields.io/travis/AltThree/Locker/master.svg?style=flat-square)](https://travis-ci.org/AltThree/Locker)
+[![StyleCI](https://github.styleci.io/repos/47549337/shield?branch=master)](https://github.styleci.io/repos/47549337)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+
+**A lock manager for Laravel 5.**
 
 
 ## Installation
