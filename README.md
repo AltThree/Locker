@@ -36,7 +36,7 @@ Alt Three Locker provides a locker class which should be used to execute critica
 
 ## Security
 
-If you discover a security vulnerability within this package, please e-mail us at support@alt-three.com. All security vulnerabilities will be promptly addressed.
+Our full security policy is available to read [here](https://github.com/AltThree/Locker/security/policy).
 
 
 ## License
