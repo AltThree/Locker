@@ -28,6 +28,20 @@ class LockerTest extends AbstractTestCase
     use FacadeTrait;
 
     /**
+     * Setup the application environment.
+     *
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     *
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app->config->set('database.redis.client', 'predis');
+    }
+
+    /**
      * Get the facade accessor.
      *
      * @return string
