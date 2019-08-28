@@ -30,6 +30,20 @@ class ServiceProviderTest extends AbstractTestCase
 {
     use ServiceProviderTrait;
 
+    /**
+     * Setup the application environment.
+     *
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     *
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        parent::getEnvironmentSetUp($app);
+
+        $app->config->set('database.redis.client', 'predis');
+    }
+
     public function testConnectionIsInjectable()
     {
         $this->assertIsInjectable(ConnectionInterface::class);
