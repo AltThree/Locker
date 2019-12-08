@@ -9,7 +9,7 @@
 
 ## Installation
 
-This version requires [PHP](https://php.net) 7.1-7.3, and supports Laravel 5.5-5.8 and 6 only.
+This version requires [PHP](https://php.net) 7.1-7.4, and supports Laravel 5.5-5.8 and 6 only.
 
 To get the latest version, simply require the project using [Composer](https://getcomposer.org):
 
