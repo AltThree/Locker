@@ -96,7 +96,9 @@ class LockerServiceProvider extends ServiceProvider
     protected function registerLocker()
     {
         $this->app->singleton('locker', function (Container $app) {
-            $connection = $app['locker.connection'];
+            $connection = function () use ($app) {
+                return $app['locker.connection'];
+            };
 
             return new Locker($connection);
         });

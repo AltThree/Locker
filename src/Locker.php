@@ -28,18 +28,18 @@ class Locker
     /**
      * The connection instance.
      *
-     * @var \AltThree\Locker\Connections\ConnectionInterface
+     * @var \AltThree\Locker\Connections\ConnectionInterface|callable
      */
     protected $connection;
 
     /**
      * Create a new locker instance.
      *
-     * @param \AltThree\Locker\Connections\ConnectionInterface $connection
+     * @param \AltThree\Locker\Connections\ConnectionInterface|callable $connection
      *
      * @return void
      */
-    public function __construct(ConnectionInterface $connection)
+    public function __construct($connection)
     {
         $this->connection = $connection;
     }
@@ -59,7 +59,7 @@ class Locker
      */
     public function make(string $name, int $timeout, int $play = 500, int $interval = 100, int $attempts = 128)
     {
-        return new Lock($this->connection, $name, $timeout, $play, $interval, $attempts);
+        return new Lock($this->resolveConnection(), $name, $timeout, $play, $interval, $attempts);
     }
 
     /**
@@ -94,5 +94,21 @@ class Locker
         }
 
         return $result;
+    }
+
+    /**
+     * Resolve the connection instance.
+     *
+     * @return \AltThree\Locker\Connections\ConnectionInterface
+     */
+    protected function resolveConnection()
+    {
+        if ($this->connection instanceof ConnectionInterface) {
+            return $this->connection;
+        }
+
+        $c = $this->connection;
+
+        return $this->connection = $c();
     }
 }
