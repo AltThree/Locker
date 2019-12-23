@@ -15,7 +15,7 @@ namespace AltThree\Tests\Locker;
 
 use AltThree\Locker\Connections\ConnectionInterface;
 use AltThree\Locker\Connections\IlluminateConnection;
-use AltThree\Locker\Connections\PredisConnection;
+use AltThree\Locker\Connections\LockProviderConnection;
 use AltThree\Locker\Http\Middleware\LockingMiddleware;
 use AltThree\Locker\Locker;
 use GrahamCampbell\TestBenchCore\ServiceProviderTrait;
@@ -49,7 +49,7 @@ class ServiceProviderTest extends AbstractTestCase
         $this->assertIsInjectable(ConnectionInterface::class);
 
         $this->assertInstanceOf(
-            class_exists(Connection::class) ? IlluminateConnection::class : PredisConnection::class,
+            version_compare($this->app->version(), '5.8') >= 0 ? LockProviderConnection::class : IlluminateConnection::class,
             $this->app->make('locker.connection')
         );
     }

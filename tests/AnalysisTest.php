@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace AltThree\Tests\Locker;
 
 use GrahamCampbell\Analyzer\AnalysisTrait;
-use Illuminate\Redis\Connections\Connection;
 use Laravel\Lumen\Application;
 use PHPUnit\Framework\TestCase;
 
@@ -48,6 +47,6 @@ class AnalysisTest extends TestCase
      */
     protected function getIgnored()
     {
-        return [Application::class, Connection::class];
+        return [Application::class];
     }
 }
