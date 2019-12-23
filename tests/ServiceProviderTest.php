@@ -19,7 +19,6 @@ use AltThree\Locker\Connections\LockProviderConnection;
 use AltThree\Locker\Http\Middleware\LockingMiddleware;
 use AltThree\Locker\Locker;
 use GrahamCampbell\TestBenchCore\ServiceProviderTrait;
-use Illuminate\Redis\Connections\Connection;
 
 /**
  * This is the service provider test class.
