@@ -54,7 +54,7 @@ class IlluminateConnection implements ConnectionInterface
      */
     public function store(string $key, string $value, int $timeout)
     {
-        return $this->illuminate->set($key, $value, 'NX', 'PX', $timeout);
+        return (bool) $this->illuminate->set($key, $value, 'NX', 'PX', $timeout);
     }
 
     /**
