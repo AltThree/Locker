@@ -17,7 +17,7 @@
     },
     "require-dev": {
         "ext-redis": "*",
-        "graham-campbell/analyzer": "^2.4",
+        "graham-campbell/analyzer": "^2.4|^3.0",
         "graham-campbell/testbench": "^5.4",
         "phpunit/phpunit": "^6.5|^7.5|^8.4|^9.0",
         "predis/predis": "^1.1"
