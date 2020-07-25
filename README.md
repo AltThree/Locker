@@ -14,7 +14,7 @@
 Alt Three Locker is a lock manager for Laravel. This version requires [PHP](https://php.net) 7.1-7.4, and supports Laravel 5.5-7. Simply require the package using [Composer](https://getcomposer.org):
 
 ```bash
-$ composer require alt-three/locker:^6.3
+$ composer require alt-three/locker:^6.4
 ```
 
 Once installed, if you are not using automatic package discovery, then you need to register the `AltThree\Locker\LockerServiceProvider` service provider in your `config/app.php`.
